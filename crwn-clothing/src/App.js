@@ -6,6 +6,7 @@ import SHOP from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInSignUp from './pages/signin-singup/signin-signup.component';
 import { auth } from './firebase/firebase.utils';
+import { createUserProfileDocument } from './firebase/firebase.utils';
 
 class App extends React.Component {
   
@@ -21,12 +22,25 @@ class App extends React.Component {
 
   componentDidMount() {
     const {history} = this.props;
-    this.unsubScribeAuth = auth.onAuthStateChanged(user => {
-      this.setState({currentUser: user}, () => {
-        if(this.state.currentUser) {
-          history.push('/');
-        }
-      })
+    this.unsubScribeAuth = auth.onAuthStateChanged(async user => {
+      const userRef = await createUserProfileDocument(user);
+      if(userRef) {
+        userRef.onSnapshot(snapshot => {
+          this.setState({
+            currentUser: {
+              id: snapshot.id,
+              ...snapshot.data()
+            }
+          },
+          // () => {
+          //   // route to homepage once signin is complete
+          //   history.push('/');
+          // }
+          )
+        });
+      } else {
+        this.setState({currentUser: user});
+      }
     });
   }
 

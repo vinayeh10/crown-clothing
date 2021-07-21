@@ -36,7 +36,7 @@ class SignIn extends Component {
                     
                     <div className="signin-actions-container">
                     <CustomButton type="submit" value='Submit form'>Sign In </CustomButton>
-                    <CustomButton type="button" onClick={signInWithGoogle} isGoogleSignIn={true} > Sign In with Google </CustomButton>
+                    <CustomButton type="button" onClick={signInWithGoogle} isGoogleSignIn={true}> Sign In with Google </CustomButton>
                     </div>
                     </form>
             </div>
