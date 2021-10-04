@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import SHOP_DATA from './shop.data';
-import './shop.styles.scss'
-import CollectionPreview from '../../components/collection-preview/collection-preview.component';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { selectShopCollections } from '../../redux/shop/shop.selector';
+import './shop.styles.scss';
+import CollectionOverView from '../../components/collection-overview/collection-overview.component';
+import { withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import Collection from '../collection/collection.component';
 
 class SHOP extends Component {
 
@@ -13,21 +12,14 @@ class SHOP extends Component {
     }
 
     render() {
-        const {collections} = this.props;
+        const {match} = this.props;
         return (
             <div>
-                {
-                    collections.map(({id, ...otherCollectionData}) => (
-                        <CollectionPreview key={id} {...otherCollectionData} />
-                    ))
-                }
+                <Route exact path={`${match.path}`} component={CollectionOverView}></Route>
+                <Route path={`${match.path}/:collectionId`} component={Collection} />
             </div>
         );
     }
 }
 
-const mapStateToProps = createStructuredSelector({
-    collections: selectShopCollections
-})
-
-export default connect(mapStateToProps)(SHOP);
+export default withRouter(SHOP);

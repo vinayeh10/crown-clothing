@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
 import Homepage from './pages/homepage/homepage.component';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import SHOP from './pages/shop/shop.component';
@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import setCurrentUser from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import CheckOut from './pages/checkout/checkout.component';
+import {GlobalStyles} from './global.styles'
 
 class App extends React.Component {
   
@@ -51,10 +52,11 @@ class App extends React.Component {
   render() {
 
     return (<div className="App">
+    <GlobalStyles />
     <Header/>
     <Switch>
       <Route exact path="/" component={Homepage}></Route>
-      <Route exact path="/shop" component={SHOP}></Route>
+      <Route path="/shop" component={SHOP}></Route>
       <Route exact path='/checkout' component={CheckOut}></Route>
       <Route exact path="/signin" render={() => this.props.currentUser ? (<Redirect to="/" />) : (<SignInSignUp />)}></Route>    
     </Switch>
